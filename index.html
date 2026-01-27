@@ -3,473 +3,136 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>QR-Code Generator (ohne Registrierung)</title>
-  <meta name="description" content="QR-Code Generator: Link eingeben → QR-Code erstellen → herunterladen. Ohne Registrierung." />
-
+  <title>QR Code Generator</title>
+  <meta name="description" content="QR Code Generator: Link oder Text eingeben → QR Code erstellen → PNG herunterladen. Ohne Registrierung." />
   <style>
     :root{
-      --bg: #f4f7fb;
-      --card: #ffffff;
-      --line: #e6edf5;
-      --text: #0f172a;
-      --muted: #64748b;
-
-      --green: #10b981;     /* accent */
-      --green-100:#dff7ea;  /* light */
-      --green-200:#c9f0df;
-
-      --shadow: 0 12px 30px rgba(15, 23, 42, .08);
-      --radius: 14px;
-      --radius2: 18px;
-
-      --max: 1080px;
+      --max: 520px;
+      --line: #e5e7eb;
+      --text: #111827;
+      --muted: #6b7280;
+      --bg: #ffffff;
+      --btn: #111827;
+      --btnText: #ffffff;
     }
-
     *{ box-sizing:border-box; }
     body{
       margin:0;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      color: var(--text);
       background: var(--bg);
+      color: var(--text);
     }
-
-    /* Topbar (simple, no register) */
-    .topbar{
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      background: rgba(255,255,255,.9);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--line);
-    }
-    .topbar-inner{
-      max-width: var(--max);
-      margin: 0 auto;
-      padding: 12px 14px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-    }
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      font-weight: 800;
-      letter-spacing:.2px;
-    }
-    .logo{
-      width:34px; height:34px;
-      border-radius: 10px;
-      background: var(--green);
-      display:grid; place-items:center;
-      color:#fff;
-      font-weight:900;
-      box-shadow: var(--shadow);
-    }
-    .brand small{
-      display:block;
-      font-weight: 600;
-      color: var(--muted);
-      margin-top:2px;
-      letter-spacing:0;
-    }
-    .menu{
-      width:40px; height:40px;
-      border-radius: 12px;
-      border: 1px solid var(--line);
-      background:#fff;
-      display:grid; place-items:center;
-      cursor:pointer;
-    }
-    .menu:active{ transform: translateY(1px); }
-    .menu-lines{
-      width:18px; height:12px; position:relative;
-    }
-    .menu-lines::before,.menu-lines::after, .menu-lines span{
-      content:"";
-      position:absolute; left:0; right:0;
-      height:2px; border-radius:2px;
-      background:#334155;
-    }
-    .menu-lines::before{ top:0; }
-    .menu-lines span{ top:5px; }
-    .menu-lines::after{ bottom:0; }
-
-    /* Layout */
     .wrap{
       max-width: var(--max);
       margin: 0 auto;
-      padding: 14px 14px 110px;
-      display:grid;
-      grid-template-columns: 1fr 320px;
-      gap: 14px;
-      align-items:start;
-    }
-    @media (max-width: 980px){
-      .wrap{ grid-template-columns: 1fr; }
+      padding: 22px 14px 32px;
     }
 
-    /* Ad slots (aggressive placeholders) */
-    .ad{
-      border: 1px dashed #cbd5e1;
-      background: #ffffff;
-      border-radius: 14px;
-      box-shadow: var(--shadow);
-      min-height: 90px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      text-align:center;
-      color: #94a3b8;
-      font-size: 12px;
-      padding: 10px;
-    }
-    .ad.tall{ min-height: 250px; }
-    .ad.slim{ min-height: 70px; }
-    .ad.badge::before{
-      content:"AD";
-      display:inline-block;
-      font-weight:900;
-      border: 1px solid #e2e8f0;
-      padding: 2px 8px;
-      border-radius: 999px;
-      margin-right: 8px;
-      color:#64748b;
-      background:#f8fafc;
-    }
-
-    /* Main card like screenshot */
-    .card{
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: var(--radius2);
-      box-shadow: var(--shadow);
-      overflow:hidden;
-    }
-
-    .card-pad{ padding: 18px; }
-
-    /* Inner preview box */
-    .preview-wrap{
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      background: #f8fbff;
-      padding: 14px;
-    }
-    .preview-title{
-      text-align:center;
+    .title{
+      font-size: 18px;
       font-weight: 800;
-      color:#1f2937;
-      margin: 4px 0 12px;
-    }
-    .preview-box{
-      background:#ffffff;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      min-height: 190px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding: 18px;
-    }
-    #qr canvas, #qr img{
-      max-width: 100%;
-      height: auto;
-      background:#fff;
-      border-radius: 12px;
-      padding: 10px;
-      border: 1px solid #eef2f7;
+      margin: 0 0 10px;
     }
 
-    /* Steps row */
-    .steps{
-      display:flex;
-      gap:10px;
-      margin-top: 14px;
-    }
-    .step{
-      flex:1;
-      border-radius: 12px;
-      border: 1px solid var(--line);
-      padding: 10px 12px;
-      display:flex;
-      align-items:center;
-      gap:10px;
-      font-weight:800;
-      color:#0f172a;
-      background:#fff;
-    }
-    .step .num{
-      width:28px; height:28px;
-      border-radius: 10px;
-      display:grid; place-items:center;
-      font-weight: 900;
-      border: 1px solid var(--line);
-      background:#fff;
-      color:#64748b;
-    }
-    .step.active{
-      background: var(--green-100);
-      border-color: var(--green-200);
-    }
-    .step.active .num{
-      background: var(--green);
-      color:#fff;
-      border-color: rgba(0,0,0,0);
-    }
-    .step.disabled{
-      opacity: .55;
-    }
-
-    /* Section header "Link" */
-    .section{
-      margin-top: 14px;
+    .card{
       border: 1px solid var(--line);
       border-radius: 14px;
-      overflow:hidden;
-      background:#fff;
-    }
-    .section-hd{
-      padding: 12px 14px;
-      background: var(--green-100);
-      border-bottom: 1px solid var(--green-200);
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      font-weight: 900;
-      color:#0f172a;
-    }
-    .section-hd .left{
-      display:flex; align-items:center; gap:10px;
-    }
-    .chain{
-      width:22px; height:22px;
-      display:grid; place-items:center;
-      border-radius: 8px;
-      background:#ffffff;
-      border:1px solid var(--green-200);
-      color: var(--green);
-      font-weight: 900;
-      line-height: 1;
-    }
-    .caret{
-      width:10px; height:10px;
-      border-right: 2px solid #0f172a;
-      border-bottom: 2px solid #0f172a;
-      transform: rotate(45deg);
-      opacity:.6;
-    }
-    .section-bd{
       padding: 14px;
+      background:#fff;
     }
-    .label{
-      font-size: 13px;
-      font-weight: 700;
-      color:#334155;
-      margin-bottom: 8px;
-    }
-    input[type="text"]{
+
+    input{
       width:100%;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px 12px;
+      font-size: 14px;
+      outline: none;
+      background:#fff;
+    }
+    input::placeholder{ color:#9ca3af; }
+
+    .btn{
+      width:100%;
+      margin-top: 10px;
       padding: 12px 12px;
       border-radius: 12px;
-      border: 1px solid var(--line);
-      outline:none;
-      font-size: 14px;
-      background:#fff;
+      border: 0;
+      background: var(--btn);
+      color: var(--btnText);
+      font-weight: 800;
+      cursor: pointer;
     }
-    input[type="text"]::placeholder{ color:#94a3b8; }
+    .btn:active{ transform: translateY(1px); }
 
-    /* Download button like screenshot */
-    .download{
-      margin-top: 12px;
-      width:100%;
-      padding: 14px 14px;
-      border-radius: 12px;
+    .btn.secondary{
+      background: #f3f4f6;
+      color: #111827;
       border: 1px solid var(--line);
-      background: #e5e7eb;
-      color: #6b7280;
-      font-weight: 900;
+    }
+
+    .btn:disabled{
+      opacity:.55;
       cursor:not-allowed;
+      transform:none;
+    }
+
+    .qrbox{
+      margin-top: 12px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px;
+      min-height: 260px;
       display:flex;
       align-items:center;
       justify-content:center;
-      gap:10px;
+      background:#fff;
     }
-    .download.enabled{
-      background: var(--green);
-      color: #fff;
-      border-color: rgba(0,0,0,0);
-      cursor:pointer;
-    }
-    .download.enabled:active{ transform: translateY(1px); }
-    .dl-ico{
-      width:16px; height:16px;
-      border:2px solid currentColor;
-      border-top:0;
-      border-radius: 3px;
-      position: relative;
-      opacity:.95;
-    }
-    .dl-ico::before{
-      content:"";
-      position:absolute;
-      left:50%; top:-10px;
-      width:0; height:0;
-      border-left:6px solid transparent;
-      border-right:6px solid transparent;
-      border-top:0;
-      border-bottom:8px solid currentColor;
-      transform: translateX(-50%);
-    }
-    .dl-ico::after{
-      content:"";
-      position:absolute;
-      left:50%; top:-2px;
-      width:2px; height:10px;
-      background: currentColor;
-      transform: translateX(-50%);
+    #qr canvas, #qr img{
+      background:#fff;
+      padding: 10px;
+      border-radius: 12px;
+      border: 1px solid #eef2f7;
+      max-width: 100%;
+      height:auto;
     }
 
-    .hint{
+    .note{
       margin-top: 10px;
       font-size: 12px;
       color: var(--muted);
       line-height: 1.35;
     }
-
-    /* Sticky bottom aggressive ad (optional) */
-    .sticky{
-      position: fixed;
-      left: 50%;
-      transform: translateX(-50%);
-      bottom: 10px;
-      width: min(var(--max), calc(100% - 20px));
-      z-index: 80;
-    }
-    .sticky-inner{
+    .row{
       display:flex;
       gap:10px;
-      align-items:center;
-      background:#fff;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      box-shadow: var(--shadow);
-      padding: 10px;
+      margin-top:10px;
     }
-    .sticky .ad{
-      margin:0;
-      flex:1;
-      min-height: 60px;
-      box-shadow:none;
-    }
-    .x{
-      border: 1px solid var(--line);
-      background:#fff;
-      border-radius: 12px;
-      padding: 10px 12px;
-      font-weight: 900;
-      cursor:pointer;
-    }
+    .row .btn{ margin-top:0; width:50%; }
   </style>
 </head>
 
 <body>
-  <div class="topbar">
-    <div class="topbar-inner">
-      <div class="brand">
-        <div class="logo">Q</div>
-        <div>
-          QR-Generator
-          <small>ohne Registrierung</small>
-        </div>
-      </div>
-      <div class="menu" aria-label="Menü">
-        <div class="menu-lines"><span></span></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Aggressive Top Ads (above content) -->
-  <div style="max-width:var(--max); margin: 14px auto 0; padding:0 14px;">
-    <div class="ad badge slim">TOP AD SLOT (Banner)</div>
-    <div style="height:12px"></div>
-    <div class="ad badge slim">TOP AD SLOT (Banner #2)</div>
-  </div>
-
   <div class="wrap">
-    <!-- MAIN -->
-    <main class="card">
-      <div class="card-pad">
-        <div class="preview-wrap">
-          <div class="preview-title">QR-Code-Vorschau</div>
-          <div class="preview-box">
-            <div id="qr"></div>
-          </div>
-        </div>
+    <h1 class="title">QR Code Generator</h1>
 
-        <div class="steps">
-          <div class="step active"><div class="num">1</div> Inhalt</div>
-          <div class="step disabled"><div class="num">2</div> Design</div>
-        </div>
+    <div class="card">
+      <input id="data" type="text" placeholder="Link oder Text eingeben…" autocomplete="off" inputmode="url" />
 
-        <div class="section">
-          <div class="section-hd">
-            <div class="left">
-              <div class="chain">⛓</div>
-              <div>Link</div>
-            </div>
-            <div class="caret" aria-hidden="true"></div>
-          </div>
-          <div class="section-bd">
-            <div class="label">Gib deine Website ein</div>
-            <input id="data" type="text" placeholder="https://"
-                   autocomplete="off" inputmode="url" />
+      <button id="gen" class="btn" type="button">QR erstellen</button>
 
-            <button id="download" class="download" type="button" disabled>
-              <span class="dl-ico" aria-hidden="true"></span>
-              QR-Code herunterladen
-            </button>
-
-            <div class="hint" id="status">
-              Link einfügen → QR wird automatisch erstellt → dann Download.
-            </div>
-          </div>
-        </div>
-
-        <!-- Aggressive in-content ads -->
-        <div style="height:12px"></div>
-        <div class="ad badge">IN-CARD AD SLOT (unter dem Formular)</div>
-        <div style="height:12px"></div>
-        <div class="ad badge">IN-CARD AD SLOT (noch eins)</div>
+      <div class="row">
+        <button id="dl" class="btn secondary" type="button" disabled>PNG herunterladen</button>
+        <button id="clear" class="btn secondary" type="button">Löschen</button>
       </div>
-    </main>
 
-    <!-- SIDEBAR (aggressive ads) -->
-    <aside>
-      <div class="ad badge tall">SIDEBAR AD (300×250)</div>
-      <div style="height:12px"></div>
-      <div class="ad badge tall">SIDEBAR AD (300×250)</div>
-      <div style="height:12px"></div>
-      <div class="ad badge">SIDEBAR AD (native/links)</div>
-      <div style="height:12px"></div>
-      <div class="ad badge">SIDEBAR AD (extra)</div>
-    </aside>
-  </div>
+      <div class="qrbox">
+        <div id="qr"></div>
+      </div>
 
-  <!-- Bottom footer ads (aggressive) -->
-  <div style="max-width:var(--max); margin: 0 auto; padding: 0 14px 120px;">
-    <div class="ad badge">FOOTER AD SLOT</div>
-    <div style="height:12px"></div>
-    <div class="ad badge">FOOTER AD SLOT #2</div>
-  </div>
-
-  <!-- Sticky bottom ad -->
-  <div class="sticky" id="sticky">
-    <div class="sticky-inner">
-      <div class="ad badge">STICKY BOTTOM AD</div>
-      <button class="x" id="closeSticky" aria-label="Sticky schließen">✕</button>
+      <div class="note" id="status">
+        Einfügen → „QR erstellen“ → herunterladen. Keine Registrierung.
+      </div>
     </div>
   </div>
 
@@ -478,45 +141,40 @@
 
   <script>
     const elData = document.getElementById('data');
-    const elQr = document.getElementById('qr');
-    const btnDownload = document.getElementById('download');
+    const btnGen = document.getElementById('gen');
+    const btnDl  = document.getElementById('dl');
+    const btnClr = document.getElementById('clear');
+    const elQr   = document.getElementById('qr');
     const status = document.getElementById('status');
 
-    const sticky = document.getElementById('sticky');
-    document.getElementById('closeSticky').addEventListener('click', () => {
-      sticky.style.display = 'none';
-    });
-
     let lastCanvas = null;
-    let genTimer = null;
+
+    function sizeAuto(){
+      const w = Math.min(window.innerWidth, 520);
+      return (w < 420) ? 220 : 280;
+    }
 
     function clearQR(){
       elQr.innerHTML = '';
       lastCanvas = null;
-      btnDownload.disabled = true;
-      btnDownload.classList.remove('enabled');
-      status.textContent = 'Link einfügen → QR wird automatisch erstellt → dann Download.';
+      btnDl.disabled = true;
+      status.textContent = 'Einfügen → „QR erstellen“ → herunterladen. Keine Registrierung.';
     }
 
-    function sizeAuto(){
-      // similar to tool sites: stable preview size
-      const w = Math.min(window.innerWidth, 1080);
-      if (w < 420) return 220;
-      if (w < 900) return 260;
-      return 280;
-    }
-
-    function generateNow(){
+    function generate(){
       const data = (elData.value || '').trim();
       if (!data){
-        clearQR();
+        status.textContent = 'Bitte Link oder Text eingeben.';
         return;
       }
 
+      // reset
       elQr.innerHTML = '';
       lastCanvas = null;
+      btnDl.disabled = true;
 
       const size = sizeAuto();
+
       new QRCode(elQr, {
         text: data,
         width: size,
@@ -529,9 +187,9 @@
       // Prefer canvas
       lastCanvas = elQr.querySelector('canvas');
 
+      // If it rendered an <img>, draw to canvas for download
       const img = elQr.querySelector('img');
       if (!lastCanvas && img){
-        // draw image into canvas for download
         const c = document.createElement('canvas');
         c.width = size; c.height = size;
         const ctx = c.getContext('2d');
@@ -541,31 +199,23 @@
           ctx.fillRect(0,0,size,size);
           ctx.drawImage(img, 0, 0, size, size);
           lastCanvas = c;
-          btnDownload.disabled = false;
-          btnDownload.classList.add('enabled');
-          status.textContent = 'Fertig. Du kannst den QR-Code herunterladen.';
+          btnDl.disabled = false;
+          status.textContent = 'Fertig. Du kannst jetzt herunterladen.';
         };
 
         if (img.complete) draw();
         else img.onload = draw;
 
-        status.textContent = 'QR-Code erstellt…';
+        status.textContent = 'QR Code erstellt…';
         return;
       }
 
       if (lastCanvas){
-        btnDownload.disabled = false;
-        btnDownload.classList.add('enabled');
-        status.textContent = 'Fertig. Du kannst den QR-Code herunterladen.';
+        btnDl.disabled = false;
+        status.textContent = 'Fertig. Du kannst jetzt herunterladen.';
       } else {
-        status.textContent = 'QR-Code erstellt, aber Download ist nicht verfügbar.';
+        status.textContent = 'QR Code erstellt, aber Download ist nicht verfügbar.';
       }
-    }
-
-    function scheduleGenerate(){
-      // auto-generate like modern tools (simple, no extra buttons needed)
-      clearTimeout(genTimer);
-      genTimer = setTimeout(generateNow, 150);
     }
 
     function downloadPNG(){
@@ -587,15 +237,19 @@
       a.remove();
     }
 
-    // Events
-    elData.addEventListener('input', scheduleGenerate);
-    elData.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') generateNow();
+    btnGen.addEventListener('click', generate);
+    btnDl.addEventListener('click', downloadPNG);
+    btnClr.addEventListener('click', () => {
+      elData.value = '';
+      clearQR();
+      elData.focus();
     });
 
-    btnDownload.addEventListener('click', downloadPNG);
+    // UX: Enter = generate
+    elData.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') generate();
+    });
 
-    // Initial placeholder QR (optional: keep empty like screenshot)
     clearQR();
   </script>
 </body>
