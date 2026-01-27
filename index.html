@@ -3,228 +3,158 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>QR Code Generator – schnell & einfach</title>
-  <meta name="description" content="QR Code Generator: Link oder Text einfügen → QR Code erstellen → PNG herunterladen. Super simpel." />
+  <title>QR Code Generator</title>
+  <meta name="description" content="QR Code Generator: Link/Text einfügen → Erstellen → PNG Download." />
   <style>
-    :root{
-      --bg:#0b0f14;
-      --panel:rgba(255,255,255,.04);
-      --line:rgba(255,255,255,.10);
-      --text:#e8eef6;
-      --muted:#a7b4c6;
-      --btn:#2b7cff;
-      --btn2:#1f5fd0;
-      --shadow:0 18px 60px rgba(0,0,0,.45);
-      --r:18px;
-      --max:980px;
-    }
-    *{box-sizing:border-box}
+    :root{ --w: 980px; --line:#e9e9e9; --muted:#777; }
+    *{ box-sizing:border-box; }
     body{
       margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-      color:var(--text);
-      background:
-        radial-gradient(900px 500px at 20% 10%, rgba(43,124,255,.20), transparent 60%),
-        radial-gradient(700px 500px at 90% 20%, rgba(54,211,153,.12), transparent 55%),
-        var(--bg);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background:#fff;
+      color:#111;
     }
-    .wrap{max-width:var(--max); margin:0 auto; padding:20px 14px 90px;}
-    header{padding:22px 0 8px}
-    .brand{
-      display:flex; align-items:center; gap:12px;
-    }
-    .logo{
-      width:38px; height:38px; border-radius:14px;
-      background: linear-gradient(135deg, #2b7cff, #36d399);
-      box-shadow: var(--shadow);
-    }
-    h1{margin:0; font-size:20px; letter-spacing:.2px}
-    .sub{margin:6px 0 0; color:var(--muted); font-size:13px; line-height:1.35}
+    .wrap{ max-width:var(--w); margin:0 auto; padding:12px 10px 90px; }
 
-    .card{
-      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
+    /* Ultra-minimal UI */
+    .row{ display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+    input{
+      flex:1;
+      min-width: 220px;
+      padding:12px;
       border:1px solid var(--line);
-      border-radius: var(--r);
-      box-shadow: var(--shadow);
-      overflow:hidden;
-    }
-    .pad{padding:16px}
-
-    .ad{
-      border:1px dashed rgba(255,255,255,.16);
-      border-radius: 14px;
-      background: rgba(0,0,0,.22);
-      color: rgba(255,255,255,.55);
-      min-height: 72px;
-      display:flex; align-items:center; justify-content:center;
-      text-align:center;
-      font-size:12px;
-    }
-
-    .main{
-      display:grid;
-      grid-template-columns: 1fr 320px;
-      gap:14px;
-      margin-top:14px;
-      align-items:start;
-    }
-    @media (max-width: 980px){
-      .main{grid-template-columns:1fr}
-    }
-
-    .input{
-      width:100%;
-      border-radius: 16px;
-      border:1px solid var(--line);
-      background: rgba(0,0,0,.25);
-      padding: 12px 12px;
-      color: var(--text);
       outline:none;
-      font-size: 14px;
+      font-size:14px;
+      background:#fff;
     }
-    .row{
-      display:flex;
-      gap:10px;
-      margin-top:10px;
-      flex-wrap:wrap;
-    }
-    .btn{
-      border:0;
-      border-radius: 14px;
-      padding: 11px 14px;
-      font-weight: 800;
-      cursor:pointer;
-      background: var(--btn);
-      color:white;
-    }
-    .btn:hover{background:var(--btn2)}
-    .btn.secondary{
-      background: transparent;
+    button{
+      padding:12px 12px;
       border:1px solid var(--line);
-      color: var(--text);
+      background:#fff;
+      cursor:pointer;
+      font-weight:600;
     }
-    .btn.secondary:hover{background: rgba(255,255,255,.05)}
-    .btn:disabled{
-      opacity:.55;
-      cursor:not-allowed;
-    }
+    button:disabled{ opacity:.5; cursor:not-allowed; }
 
-    .qrbox{
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.22);
-      border-radius: 16px;
-      padding: 14px;
+    #qrBox{
+      margin-top:10px;
+      border:1px solid var(--line);
+      min-height:260px;
       display:flex;
-      flex-direction:column;
       align-items:center;
       justify-content:center;
-      min-height: 320px;
-      gap:10px;
-    }
-    .qrbox canvas, .qrbox img{
+      padding:10px;
       background:#fff;
-      border-radius: 14px;
-      padding: 10px;
-      max-width: 100%;
+    }
+    #qr canvas, #qr img{
+      background:#fff;
+      padding:8px;
+      border:1px solid var(--line);
+      max-width:100%;
       height:auto;
     }
-    .hint{
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.35;
+    .note{ margin-top:8px; font-size:12px; color:var(--muted); }
+
+    /* Aggressive Ad Slots (placeholders) */
+    .ad{
+      margin:10px 0;
+      border:1px dashed #cfcfcf;
+      background:#fff;
+      color:#888;
+      display:flex;
+      align-items:center;
+      justify-content:center;
       text-align:center;
+      font-size:12px;
+      padding:10px;
+      min-height:70px;
+    }
+    .ad.tall{ min-height:250px; }
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr 300px;
+      gap:10px;
+      align-items:start;
+    }
+    @media (max-width: 960px){
+      .grid{ grid-template-columns:1fr; }
     }
 
-    /* Sticky ad (optional) */
+    /* Sticky bottom ad */
     .sticky{
       position:fixed;
-      left:50%;
-      transform:translateX(-50%);
-      bottom:10px;
-      width:min(var(--max), calc(100% - 20px));
+      left:0; right:0; bottom:0;
+      background:#fff;
+      border-top:1px solid var(--line);
+      padding:8px 10px;
       z-index:50;
     }
-    .sticky .bar{
-      display:flex; align-items:center; justify-content:space-between; gap:10px;
-      padding:10px 12px;
-      border-radius: 16px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.35);
-      backdrop-filter: blur(10px);
-      box-shadow: var(--shadow);
+    .sticky-inner{
+      max-width:var(--w);
+      margin:0 auto;
+      display:flex;
+      gap:8px;
+      align-items:center;
     }
+    .sticky .ad{ margin:0; min-height:50px; flex:1; }
     .x{
-      border:1px solid rgba(255,255,255,.18);
-      background: transparent;
-      color: rgba(255,255,255,.75);
-      border-radius: 12px;
-      padding: 7px 10px;
-      font-weight: 800;
+      border:1px solid var(--line);
+      background:#fff;
+      padding:10px 10px;
       cursor:pointer;
+      font-weight:700;
     }
   </style>
 </head>
+
 <body>
   <div class="wrap">
-    <header>
-      <div class="brand">
-        <div class="logo"></div>
-        <div>
-          <h1>QR Code Generator</h1>
-          <div class="sub">Einfügen → QR Code → Download. Fertig.</div>
+    <!-- TOP ADS -->
+    <div class="ad">AD SLOT (Top 1)</div>
+    <div class="ad">AD SLOT (Top 2)</div>
+
+    <div class="grid">
+      <!-- MAIN COLUMN -->
+      <div>
+        <div class="ad">AD SLOT (Above Input)</div>
+
+        <div class="row">
+          <input id="data" type="text" autocomplete="off" placeholder="Link oder Text…" />
+          <button id="gen">Erstellen</button>
+          <button id="dl" disabled>Download</button>
+          <button id="clear">X</button>
         </div>
+
+        <div id="qrBox">
+          <div id="qr"></div>
+        </div>
+
+        <div class="note" id="status">Einfügen → Erstellen → Download.</div>
+
+        <!-- MORE ADS AROUND RESULT -->
+        <div class="ad">AD SLOT (Below QR 1)</div>
+        <div class="ad">AD SLOT (Below QR 2)</div>
+        <div class="ad">AD SLOT (Below QR 3)</div>
       </div>
-    </header>
 
-    <!-- Top Banner Slot -->
-    <div class="card" style="margin-top:10px;">
-      <div class="pad">
-        <div class="ad">AD SLOT (Top Banner)</div>
-      </div>
-    </div>
-
-    <div class="main">
-      <!-- Tool -->
-      <section class="card">
-        <div class="pad">
-          <input id="data" class="input" type="text" inputmode="url"
-                 placeholder="Link oder Text einfügen (z.B. https://...)" autocomplete="off" />
-
-          <div class="row">
-            <button id="gen" class="btn">QR erstellen</button>
-            <button id="dl" class="btn secondary" disabled>PNG downloaden</button>
-            <button id="clear" class="btn secondary" type="button">Löschen</button>
-          </div>
-
-          <div style="margin-top:14px;">
-            <div class="qrbox">
-              <div id="qr"></div>
-              <div class="hint" id="status">Noch nichts generiert.</div>
-            </div>
-          </div>
-
-          <!-- Ergebnis/Download Ad Slot -->
-          <div style="margin-top:14px;">
-            <div class="ad">AD SLOT (unter dem Ergebnis)</div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Sidebar Ads -->
-      <aside class="card">
-        <div class="pad" style="display:flex; flex-direction:column; gap:12px;">
-          <div class="ad" style="min-height:250px;">AD SLOT (300×250)</div>
-          <div class="ad" style="min-height:250px;">AD SLOT (300×250)</div>
-          <div class="ad">AD SLOT (Native/Links)</div>
-        </div>
+      <!-- SIDEBAR ADS -->
+      <aside>
+        <div class="ad tall">AD SLOT (300×250)</div>
+        <div class="ad tall">AD SLOT (300×250)</div>
+        <div class="ad">AD SLOT (Sidebar)</div>
       </aside>
     </div>
+
+    <!-- FOOTER ADS -->
+    <div class="ad">AD SLOT (Footer 1)</div>
+    <div class="ad">AD SLOT (Footer 2)</div>
+    <div class="ad">AD SLOT (Footer 3)</div>
   </div>
 
-  <!-- Sticky Bottom Banner (optional) -->
+  <!-- STICKY BOTTOM AD -->
   <div class="sticky" id="sticky">
-    <div class="bar">
-      <div class="ad" style="min-height:60px; width:100%;">AD SLOT (Sticky Bottom)</div>
+    <div class="sticky-inner">
+      <div class="ad">AD SLOT (Sticky Bottom)</div>
       <button class="x" id="closeSticky" aria-label="Sticky schließen">✕</button>
     </div>
   </div>
@@ -248,28 +178,22 @@
       elQr.innerHTML = '';
       lastCanvas = null;
       btnDl.disabled = true;
-      status.textContent = 'Noch nichts generiert.';
     }
 
-    function bestSize(){
-      // simple responsive size: bigger on desktop, smaller on mobile
+    function sizeAuto(){
       const w = Math.min(window.innerWidth, 980);
-      if (w < 420) return 240;
-      if (w < 820) return 280;
-      return 320;
+      return (w < 420) ? 240 : 320;
     }
 
     function generate(){
       const data = (elData.value || '').trim();
       if (!data){
-        status.textContent = 'Bitte einen Link oder Text einfügen.';
+        status.textContent = 'Bitte Link oder Text einfügen.';
         return;
       }
-
       clearQR();
 
-      const size = bestSize();
-      // Keep it simple: strong scanability defaults
+      const size = sizeAuto();
       new QRCode(elQr, {
         text: data,
         width: size,
@@ -279,39 +203,42 @@
         correctLevel: QRCode.CorrectLevel.M
       });
 
-      // Try canvas first
       lastCanvas = elQr.querySelector('canvas');
 
-      // If it rendered an <img>, draw it into a canvas for download
+      // If <img> was created, draw it into a canvas for download
       const img = elQr.querySelector('img');
       if (!lastCanvas && img){
         const c = document.createElement('canvas');
         c.width = size; c.height = size;
         const ctx = c.getContext('2d');
+
         const draw = () => {
           ctx.fillStyle = "#ffffff";
           ctx.fillRect(0,0,size,size);
           ctx.drawImage(img, 0, 0, size, size);
           lastCanvas = c;
           btnDl.disabled = false;
-          status.textContent = 'Fertig. Jetzt als PNG downloaden.';
+          status.textContent = 'Fertig.';
         };
+
         if (img.complete) draw();
         else img.onload = draw;
-        status.textContent = 'QR Code erstellt…';
+
+        status.textContent = 'Erstellt…';
         return;
       }
 
       if (lastCanvas){
         btnDl.disabled = false;
-        status.textContent = 'Fertig. Jetzt als PNG downloaden.';
+        status.textContent = 'Fertig.';
       } else {
-        status.textContent = 'QR Code erstellt, Download ggf. nicht verfügbar.';
+        status.textContent = 'Erstellt, aber Download nicht verfügbar.';
       }
     }
 
     function downloadPNG(){
       if (!lastCanvas) return;
+
       const raw = (elData.value || '').trim().slice(0, 40);
       const name = (raw || 'qr-code')
         .replace(/https?:\/\//gi,'')
@@ -330,15 +257,17 @@
 
     btnGen.addEventListener('click', generate);
     btnDl.addEventListener('click', downloadPNG);
-    btnClr.addEventListener('click', () => { elData.value = ''; clearQR(); elData.focus(); });
+    btnClr.addEventListener('click', () => {
+      elData.value = '';
+      clearQR();
+      status.textContent = 'Einfügen → Erstellen → Download.';
+      elData.focus();
+    });
 
-    // UX: Enter creates QR
+    // Enter = generate
     elData.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') generate();
     });
-
-    // If user resizes, a newly generated QR will use better size next time.
-    window.addEventListener('resize', () => { /* no-op on purpose */ });
 
     clearQR();
   </script>
