@@ -1,0 +1,556 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>QR Code Generator – kostenlos</title>
+  <meta name="description" content="QR Code Generator: Text oder URL eingeben, QR Code erstellen und als PNG herunterladen." />
+  <style>
+    :root{
+      --bg:#0b0f14;
+      --panel:#0f1620;
+      --panel2:#0c121a;
+      --text:#e6edf3;
+      --muted:#9fb0c3;
+      --line:#243244;
+      --btn:#2b7cff;
+      --btn2:#1f5fd0;
+      --danger:#ff4d4d;
+      --good:#36d399;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 14px;
+      --max: 1100px;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      background: radial-gradient(1200px 600px at 15% 10%, #132033 0%, var(--bg) 55%);
+      color:var(--text);
+    }
+
+    header{
+      border-bottom:1px solid var(--line);
+      background: rgba(11,15,20,.85);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(10px);
+    }
+
+    .wrap{max-width:var(--max); margin:0 auto; padding:14px 16px;}
+    .topbar{
+      display:flex; gap:14px; align-items:center; justify-content:space-between;
+    }
+    .brand{
+      display:flex; gap:10px; align-items:center;
+      font-weight:800; letter-spacing:.2px;
+    }
+    .logo{
+      width:34px; height:34px; border-radius:10px;
+      background: linear-gradient(135deg, #2b7cff, #36d399);
+      box-shadow: var(--shadow);
+    }
+    .tagline{color:var(--muted); font-weight:500; font-size:13px}
+
+    main{padding:18px 0 90px;}
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr 320px;
+      gap:14px;
+      align-items:start;
+    }
+
+    @media (max-width: 980px){
+      .grid{grid-template-columns:1fr}
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .card .hd{
+      padding:14px 14px 10px;
+      border-bottom:1px solid var(--line);
+      background: rgba(15,22,32,.55);
+    }
+    .card .hd h1{
+      font-size:18px; margin:0 0 4px 0;
+    }
+    .card .hd p{
+      margin:0; color:var(--muted); font-size:13px;
+      line-height:1.35;
+    }
+    .card .bd{padding:14px;}
+
+    .row{display:grid; grid-template-columns: 1fr 1fr; gap:12px;}
+    @media (max-width: 700px){ .row{grid-template-columns:1fr} }
+
+    label{display:block; font-size:13px; color:var(--muted); margin-bottom:6px}
+    input, select, textarea{
+      width:100%;
+      background: rgba(12,18,26,.9);
+      color: var(--text);
+      border:1px solid var(--line);
+      padding:10px 12px;
+      border-radius:12px;
+      outline:none;
+    }
+    textarea{min-height:72px; resize:vertical}
+
+    .actions{
+      display:flex; flex-wrap:wrap; gap:10px;
+      margin-top:12px;
+      align-items:center;
+    }
+    button{
+      border:0;
+      background: var(--btn);
+      color:white;
+      padding:10px 14px;
+      border-radius: 12px;
+      cursor:pointer;
+      font-weight:700;
+    }
+    button:hover{background: var(--btn2)}
+    button.secondary{
+      background: transparent;
+      border:1px solid var(--line);
+      color: var(--text);
+    }
+    button.secondary:hover{
+      background: rgba(255,255,255,.04);
+    }
+
+    .hint{
+      font-size:12px;
+      color: var(--muted);
+      margin-top:10px;
+      line-height:1.35;
+    }
+
+    .preview{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+      align-items:start;
+      margin-top:14px;
+    }
+    @media (max-width: 850px){ .preview{grid-template-columns:1fr} }
+
+    .qrbox{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      align-items:center;
+      justify-content:center;
+      padding:14px;
+      background: rgba(12,18,26,.7);
+      border:1px dashed rgba(159,176,195,.35);
+      border-radius: 14px;
+      min-height: 280px;
+    }
+
+    .qrbox canvas, .qrbox img{
+      max-width: 100%;
+      height:auto;
+      border-radius: 10px;
+      background: #fff;
+      padding: 10px;
+    }
+
+    .status{
+      font-size:12px;
+      color: var(--muted);
+    }
+
+    /* Ad slots */
+    .ad{
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(0,0,0,.25);
+      border-radius: 12px;
+      padding: 10px;
+      color: rgba(255,255,255,.6);
+      font-size: 12px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      min-height: 90px;
+    }
+    .ad.tall{min-height: 250px;}
+    .ad.small{min-height: 60px;}
+    .ad .badge{
+      display:inline-block;
+      border:1px solid rgba(255,255,255,.18);
+      padding:2px 8px;
+      border-radius:999px;
+      font-size:11px;
+      margin-bottom:6px;
+      color: rgba(255,255,255,.65);
+    }
+
+    /* Sticky ad */
+    .sticky-ad{
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 10px;
+      width: min(var(--max), calc(100% - 20px));
+      z-index: 50;
+      pointer-events:none;
+    }
+    .sticky-ad .ad{
+      pointer-events:auto;
+      min-height: 60px;
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:center;
+      padding:10px 12px;
+    }
+    .close{
+      background: transparent;
+      border:1px solid rgba(255,255,255,.18);
+      color: rgba(255,255,255,.75);
+      border-radius:10px;
+      padding:6px 10px;
+      cursor:pointer;
+      font-weight:700;
+    }
+
+    .pill{
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.10);
+      color: rgba(255,255,255,.72);
+      font-size:12px;
+      background: rgba(0,0,0,.20);
+    }
+
+    .footer-note{
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 12px;
+      line-height: 1.45;
+    }
+    a{color:#8ab4ff}
+  </style>
+</head>
+
+<body>
+<header>
+  <div class="wrap">
+    <div class="topbar">
+      <div>
+        <div class="brand">
+          <div class="logo"></div>
+          <div>
+            <div>QR Code Generator</div>
+            <div class="tagline">Text/URL → QR → PNG Download</div>
+          </div>
+        </div>
+      </div>
+      <div class="pill">⚡ Schnell • 🔒 Ohne Account • 🧩 HTML/CSS/JS</div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <!-- Above-the-fold ad slot -->
+    <div class="card" style="margin-bottom:14px;">
+      <div class="bd">
+        <div class="ad small" id="ad-top">
+          <div>
+            <div class="badge">AD SLOT</div><br/>
+            Top Banner (responsive)
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <!-- Main tool -->
+      <section class="card">
+        <div class="hd">
+          <h1>QR Code erstellen</h1>
+          <p>Gib eine URL oder Text ein, wähle Größe/Farbe, generiere den Code und lade ihn als PNG herunter.</p>
+        </div>
+        <div class="bd">
+          <label for="data">Inhalt (URL oder Text)</label>
+          <textarea id="data" placeholder="https://example.com oder beliebiger Text"></textarea>
+
+          <div class="row" style="margin-top:12px;">
+            <div>
+              <label for="size">Größe (px)</label>
+              <select id="size">
+                <option value="192">192</option>
+                <option value="256" selected>256</option>
+                <option value="320">320</option>
+                <option value="384">384</option>
+                <option value="512">512</option>
+                <option value="768">768</option>
+              </select>
+            </div>
+            <div>
+              <label for="ecc">Fehlerkorrektur</label>
+              <select id="ecc">
+                <option value="L">L (7%)</option>
+                <option value="M" selected>M (15%)</option>
+                <option value="Q">Q (25%)</option>
+                <option value="H">H (30%)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row" style="margin-top:12px;">
+            <div>
+              <label for="fg">Vordergrund</label>
+              <input id="fg" type="color" value="#000000" />
+            </div>
+            <div>
+              <label for="bg">Hintergrund</label>
+              <input id="bg" type="color" value="#ffffff" />
+            </div>
+          </div>
+
+          <div class="actions">
+            <button id="btn-generate">Generieren</button>
+            <button id="btn-download" class="secondary" disabled>PNG herunterladen</button>
+            <button id="btn-clear" class="secondary">Zurücksetzen</button>
+          </div>
+
+          <div class="hint">
+            Tipp: Für Druck nutze eher 384–768 px. Hoher Kontrast = bessere Scanbarkeit.
+          </div>
+
+          <div class="preview">
+            <div class="qrbox">
+              <div id="qr"></div>
+              <div class="status" id="status">Noch kein QR Code generiert.</div>
+            </div>
+
+            <div>
+              <!-- Below-result ad slot -->
+              <div class="card">
+                <div class="hd">
+                  <h1 style="font-size:16px;margin:0;">Werbung</h1>
+                  <p>Slot unter/nahe Ergebnis (oft guter RPM bei Tools).</p>
+                </div>
+                <div class="bd">
+                  <div class="ad" id="ad-result">
+                    <div>
+                      <div class="badge">AD SLOT</div><br/>
+                      Ergebnis/Download-Bereich
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="footer-note">
+                Hinweis: Diese Demo nutzt eine QR-Library per CDN. Wenn du komplett offline willst,
+                kannst du die Library lokal hosten.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Sidebar -->
+      <aside class="card">
+        <div class="hd">
+          <h1 style="font-size:16px;margin:0;">Weitere Tools</h1>
+          <p>Hier kannst du später interne Links zu deinen 10 SEO-Seiten setzen.</p>
+        </div>
+        <div class="bd" style="display:flex; flex-direction:column; gap:12px;">
+          <div class="ad tall" id="ad-side-1">
+            <div>
+              <div class="badge">AD SLOT</div><br/>
+              Sidebar 300×250 (typisch)
+            </div>
+          </div>
+          <div class="ad tall" id="ad-side-2">
+            <div>
+              <div class="badge">AD SLOT</div><br/>
+              Sidebar 300×250 (zweiter Slot)
+            </div>
+          </div>
+          <div class="ad" id="ad-side-3">
+            <div>
+              <div class="badge">AD SLOT</div><br/>
+              Native/Link-Unit Slot
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</main>
+
+<!-- Sticky ad bar -->
+<div class="sticky-ad" id="sticky">
+  <div class="ad">
+    <div>
+      <div class="badge">AD SLOT</div>
+      Sticky Bottom Banner (Mobile stark)
+    </div>
+    <button class="close" id="closeSticky" aria-label="Sticky schließen">✕</button>
+  </div>
+</div>
+
+<!-- QRCode library -->
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+
+<script>
+  const elData = document.getElementById('data');
+  const elSize = document.getElementById('size');
+  const elECC  = document.getElementById('ecc');
+  const elFG   = document.getElementById('fg');
+  const elBG   = document.getElementById('bg');
+  const btnGen = document.getElementById('btn-generate');
+  const btnDl  = document.getElementById('btn-download');
+  const btnClr = document.getElementById('btn-clear');
+  const elQr   = document.getElementById('qr');
+  const elStatus = document.getElementById('status');
+
+  const sticky = document.getElementById('sticky');
+  document.getElementById('closeSticky').addEventListener('click', () => {
+    sticky.style.display = 'none';
+  });
+
+  let lastCanvas = null;
+
+  function clearQR() {
+    elQr.innerHTML = '';
+    lastCanvas = null;
+    btnDl.disabled = true;
+    elStatus.textContent = 'Noch kein QR Code generiert.';
+  }
+
+  function sanitizeInput(s) {
+    return (s || '').trim();
+  }
+
+  function renderQR() {
+    const data = sanitizeInput(elData.value);
+    if (!data) {
+      elStatus.textContent = 'Bitte Text oder URL eingeben.';
+      return;
+    }
+
+    clearQR();
+
+    const size = parseInt(elSize.value, 10);
+    const fg = elFG.value;
+    const bg = elBG.value;
+
+    // qrcodejs supports correctLevel via QRCode.CorrectLevel
+    const eccMap = {
+      'L': QRCode.CorrectLevel.L,
+      'M': QRCode.CorrectLevel.M,
+      'Q': QRCode.CorrectLevel.Q,
+      'H': QRCode.CorrectLevel.H
+    };
+
+    new QRCode(elQr, {
+      text: data,
+      width: size,
+      height: size,
+      colorDark: fg,
+      colorLight: bg,
+      correctLevel: eccMap[elECC.value] || QRCode.CorrectLevel.M
+    });
+
+    // qrcodejs creates either <img> or <canvas>, depending on browser.
+    // Try to find canvas first:
+    lastCanvas = elQr.querySelector('canvas');
+
+    // If it rendered an img, we can draw it to a canvas for download.
+    const img = elQr.querySelector('img');
+
+    if (!lastCanvas && img) {
+      const c = document.createElement('canvas');
+      c.width = size;
+      c.height = size;
+      const ctx = c.getContext('2d');
+      img.onload = () => {
+        ctx.fillStyle = bg;
+        ctx.fillRect(0,0,size,size);
+        ctx.drawImage(img, 0, 0, size, size);
+        lastCanvas = c;
+        btnDl.disabled = false;
+        elStatus.textContent = 'QR Code erstellt. Du kannst ihn jetzt herunterladen.';
+      };
+      // If image is already loaded:
+      if (img.complete) {
+        ctx.fillStyle = bg;
+        ctx.fillRect(0,0,size,size);
+        ctx.drawImage(img, 0, 0, size, size);
+        lastCanvas = c;
+        btnDl.disabled = false;
+        elStatus.textContent = 'QR Code erstellt. Du kannst ihn jetzt herunterladen.';
+      } else {
+        elStatus.textContent = 'QR Code erstellt (Bild lädt)...';
+      }
+      return;
+    }
+
+    if (lastCanvas) {
+      btnDl.disabled = false;
+      elStatus.textContent = 'QR Code erstellt. Du kannst ihn jetzt herunterladen.';
+    } else {
+      elStatus.textContent = 'QR Code erstellt. Download ggf. nicht verfügbar (kein Canvas gefunden).';
+    }
+  }
+
+  function downloadPNG() {
+    if (!lastCanvas) return;
+
+    const data = sanitizeInput(elData.value);
+    const safeName = (data.slice(0, 30) || 'qr-code')
+      .replace(/https?:\/\//gi,'')
+      .replace(/[^a-z0-9\-_]+/gi,'-')
+      .replace(/-+/g,'-')
+      .replace(/(^-|-$)/g,'')
+      .toLowerCase();
+
+    const a = document.createElement('a');
+    a.href = lastCanvas.toDataURL('image/png');
+    a.download = (safeName ? safeName : 'qr-code') + '.png';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  }
+
+  btnGen.addEventListener('click', renderQR);
+  btnDl.addEventListener('click', downloadPNG);
+  btnClr.addEventListener('click', () => {
+    elData.value = '';
+    elFG.value = '#000000';
+    elBG.value = '#ffffff';
+    elSize.value = '256';
+    elECC.value = 'M';
+    clearQR();
+  });
+
+  // Auto-generate on Enter (optional)
+  elData.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+      renderQR();
+    }
+  });
+
+  // Initial state
+  clearQR();
+</script>
+</body>
+</html>
