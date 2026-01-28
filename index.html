@@ -3,17 +3,27 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>QR Code Generator</title>
-  <meta name="description" content="QR Code Generator: Link oder Text eingeben → QR Code erstellen → PNG herunterladen. Ohne Registrierung." />
+  <title>QR Code Generator – kostenlos & ohne Registrierung</title>
+
+  <meta name="description" content="Kostenloser QR Code Generator: Link oder Text eingeben → QR Code erstellen → als PNG herunterladen. Ohne Registrierung." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://DEINE-DOMAIN.TLD/" />
+
+  <!-- OpenGraph (optional, aber wirkt “echter”) -->
+  <meta property="og:title" content="QR Code Generator" />
+  <meta property="og:description" content="Link oder Text eingeben → QR Code erstellen → PNG herunterladen. Ohne Registrierung." />
+  <meta property="og:type" content="website" />
+
   <style>
     :root{
-      --max: 520px;
+      --max: 760px;
       --line: #e5e7eb;
       --text: #111827;
       --muted: #6b7280;
       --bg: #ffffff;
       --btn: #111827;
       --btnText: #ffffff;
+      --soft: #f9fafb;
     }
     *{ box-sizing:border-box; }
     body{
@@ -22,23 +32,67 @@
       background: var(--bg);
       color: var(--text);
     }
+    a{ color: inherit; text-decoration: none; }
+    a:hover{ text-decoration: underline; }
+
     .wrap{
       max-width: var(--max);
       margin: 0 auto;
-      padding: 22px 14px 32px;
+      padding: 18px 14px 40px;
     }
 
-    .title{
-      font-size: 18px;
-      font-weight: 800;
-      margin: 0 0 10px;
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding: 6px 0 14px;
+    }
+    .brand{
+      font-weight: 900;
+      letter-spacing: .2px;
+      font-size: 14px;
+    }
+    nav{
+      display:flex;
+      gap:14px;
+      font-size: 13px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .hero{
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 16px;
+      background:#fff;
+    }
+
+    h1{
+      font-size: 20px;
+      margin: 0 0 8px;
+      font-weight: 900;
+    }
+    .lead{
+      margin: 0 0 12px;
+      color: var(--muted);
+      line-height: 1.45;
+      font-size: 13px;
     }
 
     .card{
+      margin-top: 12px;
       border: 1px solid var(--line);
       border-radius: 14px;
       padding: 14px;
       background:#fff;
+    }
+
+    label{
+      display:block;
+      font-size: 12px;
+      color: var(--muted);
+      margin: 0 0 6px;
     }
 
     input{
@@ -60,7 +114,7 @@
       border: 0;
       background: var(--btn);
       color: var(--btnText);
-      font-weight: 800;
+      font-weight: 900;
       cursor: pointer;
     }
     .btn:active{ transform: translateY(1px); }
@@ -69,6 +123,7 @@
       background: #f3f4f6;
       color: #111827;
       border: 1px solid var(--line);
+      font-weight: 800;
     }
 
     .btn:disabled{
@@ -101,80 +156,161 @@
       margin-top: 10px;
       font-size: 12px;
       color: var(--muted);
-      line-height: 1.35;
+      line-height: 1.45;
     }
+
     .row{
       display:flex;
       gap:10px;
       margin-top:10px;
     }
     .row .btn{ margin-top:0; width:50%; }
+
+    .content{
+      margin-top: 14px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px;
+      background: var(--soft);
+      font-size: 13px;
+      line-height: 1.6;
+      color: #1f2937;
+    }
+    .content h2{
+      margin: 0 0 6px;
+      font-size: 14px;
+      font-weight: 900;
+    }
+    .content p{ margin: 0 0 10px; color: #374151; }
+    .content ul{ margin: 0 0 0 18px; padding: 0; color: #374151; }
+
+    footer{
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+    .links{ display:flex; gap:12px; flex-wrap:wrap; }
+    .small{ color: var(--muted); }
   </style>
 </head>
 
 <body>
   <div class="wrap">
-    <h1 class="title">QR Code Generator</h1>
+    <header>
+      <div class="brand">QR Code Generator</div>
+      <nav aria-label="Navigation">
+        <a href="./privacy.html">Datenschutz</a>
+        <a href="./terms.html">Nutzungsbedingungen</a>
+      </nav>
+    </header>
 
-    <div class="card">
-      <input id="data" type="text" placeholder="Link oder Text eingeben…" autocomplete="off" inputmode="url" />
+    <main>
+      <section class="hero" aria-label="Einführung">
+        <h1>QR Code Generator</h1>
+        <p class="lead">
+          Erstelle in Sekunden einen QR Code für einen Link oder Text – direkt im Browser, kostenlos und ohne Registrierung.
+          Der QR Code wird lokal generiert und kann als PNG heruntergeladen werden.
+        </p>
 
-      <button id="gen" class="btn" type="button">QR erstellen</button>
+        <div class="card" aria-label="QR Tool">
+          <label for="data">Link oder Text</label>
+          <input id="data" type="text" placeholder="z.B. https://example.com" autocomplete="off" inputmode="url" />
 
-      <div class="row">
-        <button id="dl" class="btn secondary" type="button" disabled>PNG herunterladen</button>
-        <button id="clear" class="btn secondary" type="button">Löschen</button>
+          <button id="gen" class="btn" type="button">QR erstellen</button>
+
+          <div class="row">
+            <button id="dl" class="btn secondary" type="button" disabled>PNG herunterladen</button>
+            <button id="clear" class="btn secondary" type="button">Löschen</button>
+          </div>
+
+          <div class="qrbox" aria-live="polite" aria-busy="false">
+            <div id="qr"></div>
+          </div>
+
+          <div class="note" id="status">
+            Einfügen → „QR erstellen“ → herunterladen. Keine Registrierung.
+          </div>
+        </div>
+
+        <div class="content" aria-label="Informationen">
+          <h2>Wofür ist das Tool?</h2>
+          <p>
+            QR Codes sind praktisch für Visitenkarten, Poster, Speisekarten, Events oder Kurzlinks.
+            Dieses Tool erstellt QR Codes für jede beliebige Eingabe (URL oder Text) und ermöglicht den Download als PNG.
+          </p>
+          <h2>Hinweise</h2>
+          <ul>
+            <li>Der Code wird im Browser erzeugt – kein Upload deiner Eingabe nötig.</li>
+            <li>Für besonders lange Texte kann das Scannen je nach Kamera-App variieren.</li>
+            <li>Bitte prüfe den QR Code nach dem Download kurz mit deiner Kamera.</li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="links">
+        <a href="./privacy.html">Datenschutz</a>
+        <a href="./terms.html">Nutzungsbedingungen</a>
       </div>
-
-      <div class="qrbox">
-        <div id="qr"></div>
-      </div>
-
-      <div class="note" id="status">
-        Einfügen → „QR erstellen“ → herunterladen. Keine Registrierung.
-      </div>
-    </div>
+      <div class="small">© <span id="y"></span> QR Code Generator</div>
+    </footer>
   </div>
 
   <!-- QR library -->
   <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 
   <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+
     const elData = document.getElementById('data');
     const btnGen = document.getElementById('gen');
     const btnDl  = document.getElementById('dl');
     const btnClr = document.getElementById('clear');
     const elQr   = document.getElementById('qr');
     const status = document.getElementById('status');
+    const qrbox  = document.querySelector('.qrbox');
 
     let lastCanvas = null;
 
     function sizeAuto(){
-      const w = Math.min(window.innerWidth, 520);
+      const w = Math.min(window.innerWidth, 760);
       return (w < 420) ? 220 : 280;
+    }
+
+    function setStatus(msg, busy=false){
+      status.textContent = msg;
+      qrbox.setAttribute('aria-busy', busy ? 'true' : 'false');
     }
 
     function clearQR(){
       elQr.innerHTML = '';
       lastCanvas = null;
       btnDl.disabled = true;
-      status.textContent = 'Einfügen → „QR erstellen“ → herunterladen. Keine Registrierung.';
+      setStatus('Einfügen → „QR erstellen“ → herunterladen. Keine Registrierung.', false);
     }
 
     function generate(){
       const data = (elData.value || '').trim();
       if (!data){
-        status.textContent = 'Bitte Link oder Text eingeben.';
+        setStatus('Bitte Link oder Text eingeben.', false);
         return;
       }
 
-      // reset
       elQr.innerHTML = '';
       lastCanvas = null;
       btnDl.disabled = true;
 
       const size = sizeAuto();
+      setStatus('QR Code wird erstellt…', true);
 
+      // Create QR
       new QRCode(elQr, {
         text: data,
         width: size,
@@ -200,38 +336,40 @@
           ctx.drawImage(img, 0, 0, size, size);
           lastCanvas = c;
           btnDl.disabled = false;
-          status.textContent = 'Fertig. Du kannst jetzt herunterladen.';
+          setStatus('Fertig. Du kannst jetzt herunterladen.', false);
         };
 
         if (img.complete) draw();
         else img.onload = draw;
 
-        status.textContent = 'QR Code erstellt…';
         return;
       }
 
       if (lastCanvas){
         btnDl.disabled = false;
-        status.textContent = 'Fertig. Du kannst jetzt herunterladen.';
+        setStatus('Fertig. Du kannst jetzt herunterladen.', false);
       } else {
-        status.textContent = 'QR Code erstellt, aber Download ist nicht verfügbar.';
+        setStatus('QR Code erstellt, aber Download ist nicht verfügbar.', false);
       }
     }
 
-    function downloadPNG(){
-      if (!lastCanvas) return;
-
-      const raw = (elData.value || '').trim().slice(0, 48);
+    function safeFilename(input){
+      const raw = (input || '').trim().slice(0, 60);
       const name = (raw || 'qr-code')
         .replace(/https?:\/\//gi,'')
         .replace(/[^a-z0-9\-_]+/gi,'-')
         .replace(/-+/g,'-')
         .replace(/(^-|-$)/g,'')
         .toLowerCase();
+      return name || 'qr-code';
+    }
+
+    function downloadPNG(){
+      if (!lastCanvas) return;
 
       const a = document.createElement('a');
       a.href = lastCanvas.toDataURL('image/png');
-      a.download = (name || 'qr-code') + '.png';
+      a.download = safeFilename(elData.value) + '.png';
       document.body.appendChild(a);
       a.click();
       a.remove();
@@ -245,7 +383,6 @@
       elData.focus();
     });
 
-    // UX: Enter = generate
     elData.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') generate();
     });
