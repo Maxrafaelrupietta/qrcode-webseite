@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Nutzungsbedingungen – QR Code Generator</title>
+  <meta name="robots" content="index,follow" />
+  <style>
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:#fff;color:#111827;}
+    .wrap{max-width:760px;margin:0 auto;padding:18px 14px 40px;}
+    a{color:inherit;text-decoration:none} a:hover{text-decoration:underline}
+    h1{font-size:20px;margin:10px 0 8px;font-weight:900}
+    p,li{color:#374151;line-height:1.6;font-size:13px}
+    .top{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:6px 0 14px;border-bottom:1px solid #e5e7eb}
+    .brand{font-weight:900;font-size:14px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div class="brand"><a href="./index.html">QR Code Generator</a></div>
+      <div><a href="./privacy.html">Datenschutz</a></div>
+    </div>
+
+    <h1>Nutzungsbedingungen</h1>
+
+    <p>
+      Dieses Tool wird “wie gesehen” bereitgestellt. Du kannst Links oder Text eingeben, um einen QR Code zu erstellen
+      und als PNG herunterzuladen.
+    </p>
+
+    <p><strong>Haftung:</strong> Es wird keine Garantie für Fehlerfreiheit oder dauerhafte Verfügbarkeit übernommen.
+      Bitte prüfe den QR Code nach dem Erstellen, bevor du ihn z. B. druckst oder veröffentlichst.</p>
+
+    <p><strong>Missbrauch:</strong> Bitte nutze das Tool nicht für illegale Inhalte oder schädliche Zwecke.</p>
+
+    <p><strong>Änderungen:</strong> Diese Bedingungen können jederzeit angepasst werden.</p>
+
+    <p><strong>Stand:</strong> <span id="d"></span></p>
+  </div>
+
+  <script>
+    const now = new Date();
+    document.getElementById('d').textContent =
+      now.toLocaleDateString('de-DE', { year:'numeric', month:'2-digit', day:'2-digit' });
+  </script>
+</body>
+</html>
