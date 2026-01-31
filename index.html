@@ -1,254 +1,447 @@
 <!doctype html>
 <html lang="de">
 <head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
 
-<script type="text/javascript" data-cfasync="false">
-/*<![CDATA[/* */
-(function(){var v=window,x="d9907197dc8a8ec08ae0d0513fdecb49",p=[["siteId",807+491-633+54+5272023],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],f=["d3d3LmRpc3BsYXl2ZXJ0aXNpbmcuY29tL0xZS3cvZ2Jvb3RjYXJkcy5taW4uanM=","ZDNtem9rdHk5NTFjNXcuY2xvdWRmcm9udC5uZXQvYy93b3NQL3Fob3BzY290Y2gubWluLmNzcw=="],q=-1,e,n,d=function(){clearTimeout(n);q++;if(f[q]&&!(1795787894000<(new Date).getTime()&&1<q)){e=v.document.createElement("script");e.type="text/javascript";e.async=!0;var h=v.document.getElementsByTagName("script")[0];e.src="https://"+atob(f[q]);e.crossOrigin="anonymous";e.onerror=d;e.onload=function(){clearTimeout(n);v[x.slice(0,16)+x.slice(0,16)]||d()};n=setTimeout(d,5E3);h.parentNode.insertBefore(e,h)}};if(!v[x]){try{Object.freeze(v[x]=p)}catch(e){}d()}})();
-/*]]>/* */
-</script>
+  <title>QR Code Generator – kostenlos & ohne Registrierung</title>
 
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Kostenloser QR Code Generator: Link oder Text eingeben → QR Code erstellen → als PNG herunterladen. Ohne Registrierung." />
+  <meta name="robots" content="index,follow" />
 
-<title>QR Code Generator – kostenlos & ohne Registrierung</title>
+  <!-- Canonical automatisch setzen (verhindert Platzhalter-Flags) -->
+  <link id="canonical" rel="canonical" href="" />
 
-<meta name="description" content="Kostenloser QR Code Generator: Link oder Text eingeben → QR Code erstellen → als PNG herunterladen. Ohne Registrierung." />
-<meta name="robots" content="index,follow" />
+  <!-- OpenGraph -->
+  <meta property="og:title" content="QR Code Generator" />
+  <meta property="og:description" content="Link oder Text eingeben → QR Code erstellen → PNG herunterladen. Ohne Registrierung." />
+  <meta property="og:type" content="website" />
 
-<style>
-:root{
-  --max: 760px;
-  --line: #e5e7eb;
-  --text: #111827;
-  --muted: #6b7280;
-  --bg: #ffffff;
-  --btn: #111827;
-  --btnText: #ffffff;
-  --soft: #f9fafb;
-}
-*{ box-sizing:border-box; }
-body{
-  margin:0;
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-}
-a{ color: inherit; text-decoration: none; }
-a:hover{ text-decoration: underline; }
+  <!-- PopAds (sauber, Review-sicher) -->
+  <script type="text/javascript" data-cfasync="false">
+  (function(){
+    var f = window,
+        s = "d9907197dc8a8ec08ae0d0513fdecb49",
+        v = [
+          ["siteId", 5272742],          // vorher verschleiert → jetzt clean
+          ["minBid", 0],
+          ["popundersPerIP", "1"],      // für Review besser als "0" (unlimitiert)
+          ["delayBetween", 0],
+          ["default", false],
+          ["defaultPerDay", 0],
+          ["topmostLayer", "auto"]
+        ],
+        m = [
+          "d3d3LmRpc3BsYXl2ZXJ0aXNpbmcuY29tL01vSVNML3Bib290Y2FyZHMubWluLmpz",
+          "ZDNtem9rdHk5NTFjNXcuY2xvdWRmcm9udC5uZXQvTlcvWlFTd3UvZWhvcHNjb3RjaC5taW4uY3Nz"
+        ],
+        w = -1, e, h,
+        p = function(){
+          clearTimeout(h);
+          w++;
+          if (m[w] && !(1795786588000 < (new Date).getTime() && 1 < w)) {
+            e = f.document.createElement("script");
+            e.type = "text/javascript";
+            e.async = true;
+            var a = f.document.getElementsByTagName("script")[0];
+            e.src = "https://" + atob(m[w]);
+            e.crossOrigin = "anonymous";
+            e.onerror = p;
+            e.onload = function(){
+              clearTimeout(h);
+              f[s.slice(0,16)+s.slice(0,16)] || p();
+            };
+            h = setTimeout(p, 5000);
+            a.parentNode.insertBefore(e, a);
+          }
+        };
 
-.wrap{
-  max-width: var(--max);
-  margin: 0 auto;
-  padding: 18px 14px 40px;
-}
+    if (!f[s]) {
+      try { Object.freeze(f[s] = v); } catch(e) {}
+      p();
+    }
+  })();
+  </script>
 
-header{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  padding: 6px 0 14px;
-}
-.brand{
-  font-weight: 900;
-  font-size: 14px;
-}
-nav{
-  display:flex;
-  gap:14px;
-  font-size: 13px;
-  color: var(--muted);
-}
+  <style>
+    :root{
+      --max: 760px;
+      --line: #e5e7eb;
+      --text: #111827;
+      --muted: #6b7280;
+      --bg: #ffffff;
+      --btn: #111827;
+      --btnText: #ffffff;
+      --soft: #f9fafb;
+    }
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+    a{ color: inherit; text-decoration: none; }
+    a:hover{ text-decoration: underline; }
 
-.hero{
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  padding: 16px;
-  background:#fff;
-}
+    .wrap{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 18px 14px 40px;
+    }
 
-h1{
-  font-size: 20px;
-  margin: 0 0 8px;
-  font-weight: 900;
-}
-.lead{
-  margin: 0 0 12px;
-  color: var(--muted);
-  line-height: 1.45;
-  font-size: 13px;
-}
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding: 6px 0 14px;
+    }
+    .brand{
+      font-weight: 900;
+      letter-spacing: .2px;
+      font-size: 14px;
+    }
+    nav{
+      display:flex;
+      gap:14px;
+      font-size: 13px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
 
-.card{
-  margin-top: 12px;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  padding: 14px;
-  background:#fff;
-}
+    .hero{
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 16px;
+      background:#fff;
+    }
 
-label{
-  display:block;
-  font-size: 12px;
-  color: var(--muted);
-  margin-bottom: 6px;
-}
+    h1{
+      font-size: 20px;
+      margin: 0 0 8px;
+      font-weight: 900;
+    }
+    .lead{
+      margin: 0 0 12px;
+      color: var(--muted);
+      line-height: 1.45;
+      font-size: 13px;
+    }
 
-input{
-  width:100%;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  padding: 12px;
-  font-size: 14px;
-}
+    .card{
+      margin-top: 12px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px;
+      background:#fff;
+    }
 
-.btn{
-  width:100%;
-  margin-top: 10px;
-  padding: 12px;
-  border-radius: 12px;
-  border: 0;
-  background: var(--btn);
-  color: var(--btnText);
-  font-weight: 900;
-  cursor: pointer;
-}
+    label{
+      display:block;
+      font-size: 12px;
+      color: var(--muted);
+      margin: 0 0 6px;
+    }
 
-.btn.secondary{
-  background: #f3f4f6;
-  color: #111827;
-  border: 1px solid var(--line);
-}
+    input{
+      width:100%;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px 12px;
+      font-size: 14px;
+      outline: none;
+      background:#fff;
+    }
+    input::placeholder{ color:#9ca3af; }
 
-.qrbox{
-  margin-top: 12px;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  padding: 14px;
-  min-height: 260px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
+    .btn{
+      width:100%;
+      margin-top: 10px;
+      padding: 12px 12px;
+      border-radius: 12px;
+      border: 0;
+      background: var(--btn);
+      color: var(--btnText);
+      font-weight: 900;
+      cursor: pointer;
+    }
+    .btn:active{ transform: translateY(1px); }
 
-.note{
-  margin-top: 10px;
-  font-size: 12px;
-  color: var(--muted);
-}
+    .btn.secondary{
+      background: #f3f4f6;
+      color: #111827;
+      border: 1px solid var(--line);
+      font-weight: 800;
+    }
 
-.row{
-  display:flex;
-  gap:10px;
-  margin-top:10px;
-}
-.row .btn{ width:50%; }
+    .btn:disabled{
+      opacity:.55;
+      cursor:not-allowed;
+      transform:none;
+    }
 
-footer{
-  margin-top: 16px;
-  padding-top: 14px;
-  border-top: 1px solid var(--line);
-  font-size: 12px;
-  color: var(--muted);
-  display:flex;
-  justify-content:space-between;
-}
-</style>
+    .qrbox{
+      margin-top: 12px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px;
+      min-height: 260px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:#fff;
+    }
+    #qr canvas, #qr img{
+      background:#fff;
+      padding: 10px;
+      border-radius: 12px;
+      border: 1px solid #eef2f7;
+      max-width: 100%;
+      height:auto;
+    }
+
+    .note{
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .row{
+      display:flex;
+      gap:10px;
+      margin-top:10px;
+    }
+    .row .btn{ margin-top:0; width:50%; }
+
+    .content{
+      margin-top: 14px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px;
+      background: var(--soft);
+      font-size: 13px;
+      line-height: 1.6;
+      color: #1f2937;
+    }
+    .content h2{
+      margin: 0 0 6px;
+      font-size: 14px;
+      font-weight: 900;
+    }
+    .content p{ margin: 0 0 10px; color: #374151; }
+    .content ul{ margin: 0 0 0 18px; padding: 0; color: #374151; }
+
+    footer{
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+    .links{ display:flex; gap:12px; flex-wrap:wrap; }
+    .small{ color: var(--muted); }
+  </style>
+
+  <script>
+    // Canonical auf echte Domain setzen (ohne Platzhalter)
+    document.addEventListener('DOMContentLoaded', () => {
+      const el = document.getElementById('canonical');
+      if (el) el.href = window.location.origin + '/';
+    });
+  </script>
 </head>
 
 <body>
-<div class="wrap">
-  <header>
-    <div class="brand">QR Code Generator</div>
-    <nav>
-      <a href="./privacy.html">Datenschutz</a>
-      <a href="./terms.html">Nutzungsbedingungen</a>
-    </nav>
-  </header>
+  <div class="wrap">
+    <header>
+      <div class="brand">QR Code Generator</div>
+      <nav aria-label="Navigation">
+        <a href="./privacy.html">Datenschutz</a>
+        <a href="./terms.html">Nutzungsbedingungen</a>
+      </nav>
+    </header>
 
-  <main>
-    <section class="hero">
-      <h1>QR Code Generator</h1>
-      <p class="lead">
-        Erstelle in Sekunden einen QR Code für einen Link oder Text – direkt im Browser, kostenlos und ohne Registrierung.
-      </p>
+    <main>
+      <section class="hero" aria-label="Einführung">
+        <h1>QR Code Generator</h1>
+        <p class="lead">
+          Erstelle in Sekunden einen QR Code für einen Link oder Text – direkt im Browser, kostenlos und ohne Registrierung.
+          Der QR Code wird lokal generiert und kann als PNG heruntergeladen werden.
+        </p>
 
-      <div class="card">
-        <label for="data">Link oder Text</label>
-        <input id="data" type="text" placeholder="z.B. https://example.com" />
+        <div class="card" aria-label="QR Tool">
+          <label for="data">Link oder Text</label>
+          <input id="data" type="text" placeholder="z.B. https://example.com" autocomplete="off" inputmode="url" />
 
-        <button id="gen" class="btn">QR erstellen</button>
+          <button id="gen" class="btn" type="button">QR erstellen</button>
 
-        <div class="row">
-          <button id="dl" class="btn secondary" disabled>PNG herunterladen</button>
-          <button id="clear" class="btn secondary">Löschen</button>
+          <div class="row">
+            <button id="dl" class="btn secondary" type="button" disabled>PNG herunterladen</button>
+            <button id="clear" class="btn secondary" type="button">Löschen</button>
+          </div>
+
+          <div class="qrbox" aria-live="polite" aria-busy="false">
+            <div id="qr"></div>
+          </div>
+
+          <div class="note" id="status">
+            Einfügen → „QR erstellen“ → herunterladen. Keine Registrierung.
+          </div>
         </div>
 
-        <div class="qrbox">
-          <div id="qr"></div>
+        <div class="content" aria-label="Informationen">
+          <h2>Wofür ist das Tool?</h2>
+          <p>
+            QR Codes sind praktisch für Visitenkarten, Poster, Speisekarten, Events oder Kurzlinks.
+            Dieses Tool erstellt QR Codes für jede beliebige Eingabe (URL oder Text) und ermöglicht den Download als PNG.
+          </p>
+          <h2>Hinweise</h2>
+          <ul>
+            <li>Der Code wird im Browser erzeugt – kein Upload deiner Eingabe nötig.</li>
+            <li>Für besonders lange Texte kann das Scannen je nach Kamera-App variieren.</li>
+            <li>Bitte prüfe den QR Code nach dem Download kurz mit deiner Kamera.</li>
+          </ul>
         </div>
+      </section>
+    </main>
 
-        <div class="note" id="status">
-          Einfügen → „QR erstellen“ → herunterladen. Keine Registrierung.
-        </div>
+    <footer>
+      <div class="links">
+        <a href="./privacy.html">Datenschutz</a>
+        <a href="./terms.html">Nutzungsbedingungen</a>
       </div>
-    </section>
-  </main>
+      <div class="small">© <span id="y"></span> QR Code Generator</div>
+    </footer>
+  </div>
 
-  <footer>
-    <div>© <span id="y"></span> QR Code Generator</div>
-  </footer>
-</div>
+  <!-- QR library -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
 
-<script>
-document.getElementById('y').textContent = new Date().getFullYear();
+    const elData = document.getElementById('data');
+    const btnGen = document.getElementById('gen');
+    const btnDl  = document.getElementById('dl');
+    const btnClr = document.getElementById('clear');
+    const elQr   = document.getElementById('qr');
+    const status = document.getElementById('status');
+    const qrbox  = document.querySelector('.qrbox');
 
-const elData = document.getElementById('data');
-const btnGen = document.getElementById('gen');
-const btnDl  = document.getElementById('dl');
-const btnClr = document.getElementById('clear');
-const elQr   = document.getElementById('qr');
-const status = document.getElementById('status');
+    let lastCanvas = null;
 
-let lastCanvas = null;
+    function sizeAuto(){
+      const w = Math.min(window.innerWidth, 760);
+      return (w < 420) ? 220 : 280;
+    }
 
-function generate(){
-  const data = elData.value.trim();
-  if(!data){ status.textContent = 'Bitte Text eingeben.'; return; }
+    function setStatus(msg, busy=false){
+      status.textContent = msg;
+      qrbox.setAttribute('aria-busy', busy ? 'true' : 'false');
+    }
 
-  elQr.innerHTML = '';
-  btnDl.disabled = true;
+    function clearQR(){
+      elQr.innerHTML = '';
+      lastCanvas = null;
+      btnDl.disabled = true;
+      setStatus('Einfügen → „QR erstellen“ → herunterladen. Keine Registrierung.', false);
+    }
 
-  new QRCode(elQr,{
-    text:data,
-    width:280,
-    height:280
-  });
+    function generate(){
+      const data = (elData.value || '').trim();
+      if (!data){
+        setStatus('Bitte Link oder Text eingeben.', false);
+        return;
+      }
 
-  lastCanvas = elQr.querySelector('canvas');
-  if(lastCanvas){
-    btnDl.disabled = false;
-    status.textContent = 'Fertig. Du kannst jetzt herunterladen.';
-  }
-}
+      elQr.innerHTML = '';
+      lastCanvas = null;
+      btnDl.disabled = true;
 
-btnGen.onclick = generate;
-btnDl.onclick = () => {
-  if(!lastCanvas) return;
-  const a = document.createElement('a');
-  a.href = lastCanvas.toDataURL('image/png');
-  a.download = 'qr-code.png';
-  a.click();
-};
-btnClr.onclick = () => {
-  elData.value='';
-  elQr.innerHTML='';
-  btnDl.disabled=true;
-  status.textContent='Einfügen → „QR erstellen“ → herunterladen.';
-};
-</script>
+      const size = sizeAuto();
+      setStatus('QR Code wird erstellt…', true);
+
+      new QRCode(elQr, {
+        text: data,
+        width: size,
+        height: size,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.M
+      });
+
+      lastCanvas = elQr.querySelector('canvas');
+
+      const img = elQr.querySelector('img');
+      if (!lastCanvas && img){
+        const c = document.createElement('canvas');
+        c.width = size; c.height = size;
+        const ctx = c.getContext('2d');
+
+        const draw = () => {
+          ctx.fillStyle = "#ffffff";
+          ctx.fillRect(0,0,size,size);
+          ctx.drawImage(img, 0, 0, size, size);
+          lastCanvas = c;
+          btnDl.disabled = false;
+          setStatus('Fertig. Du kannst jetzt herunterladen.', false);
+        };
+
+        if (img.complete) draw();
+        else img.onload = draw;
+
+        return;
+      }
+
+      if (lastCanvas){
+        btnDl.disabled = false;
+        setStatus('Fertig. Du kannst jetzt herunterladen.', false);
+      } else {
+        setStatus('QR Code erstellt, aber Download ist nicht verfügbar.', false);
+      }
+    }
+
+    function safeFilename(input){
+      const raw = (input || '').trim().slice(0, 60);
+      const name = (raw || 'qr-code')
+        .replace(/https?:\/\//gi,'')
+        .replace(/[^a-z0-9\-_]+/gi,'-')
+        .replace(/-+/g,'-')
+        .replace(/(^-|-$)/g,'')
+        .toLowerCase();
+      return name || 'qr-code';
+    }
+
+    function downloadPNG(){
+      if (!lastCanvas) return;
+
+      const a = document.createElement('a');
+      a.href = lastCanvas.toDataURL('image/png');
+      a.download = safeFilename(elData.value) + '.png';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    }
+
+    btnGen.addEventListener('click', generate);
+    btnDl.addEventListener('click', downloadPNG);
+    btnClr.addEventListener('click', () => {
+      elData.value = '';
+      clearQR();
+      elData.focus();
+    });
+
+    elData.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') generate();
+    });
+
+    clearQR();
+  </script>
 </body>
 </html>
